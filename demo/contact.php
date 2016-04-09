@@ -1,7 +1,7 @@
 <?php
 include('../form-validation.php');
 
-// Liste des champs du formulaire
+// Fields list
 $form = array(
 	'nom' => array('type' => 'string', 'label' => 'nom', 'required' => true),
 	'prenom' => array('type' => 'string', 'label' => 'prénom', 'required' => true),
@@ -10,13 +10,16 @@ $form = array(
 	'message' => array('type' => 'string', 'label' => 'message', 'required' => true)
 );
 
-$validation = new FormValidation(); // Création de l'objet
-$validation->setFields($form); // Déclaration des champs
+// Object creation and parameters definition
+$validation = new FormValidation();
+$validation->setFields($form);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$validation->setSource($_POST); // On fournit les valeurs à l'objet de validation
+	// Form values setting
+	$validation->setSource($_POST);
 	
-	if ($validation->isValid()) { // On vérifie si le formulaire est valide
+	// Form validation
+	if ($validation->isValid()) {
 		$content = 'Nom : '.$validation->getFormValue('nom')."\r\n";
 		$content .= 'Prénom : '.$validation->getFormValue('prenom')."\r\n";
 		$content .= 'Adresse email : '.$validation->getFormValue('email')."\r\n";
@@ -25,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 		if (@mail('email@domaine.com', 'Message de '.$validation->getFormValue('prenom'), $message)) {
 			$message = '<p>Votre message a bien été envoyé.</p>';
-			$validation->resetFormValues(); // Réinitialisation des valeurs pour ne pas qu'elles soient réaffichées
+			
+			// Reset form values
+			$validation->resetFormValues();
 		} else {
 			$message = '<p>Une erreur s\'est produite lors de l\'envoi du message.</p>';
 		}
@@ -38,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>formulaire de contact - Validez simplement vos formulaires en PHP</title>
+		<title>Formulaire de contact - Validez simplement vos formulaires en PHP</title>
 	</head>
 
 	<body>		

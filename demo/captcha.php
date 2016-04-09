@@ -3,7 +3,7 @@ include('../form-validation.php');
 
 session_start();
 
-// Génération de la chaîne de caractères
+// Random string generation
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -13,18 +13,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	$_SESSION['captcha'] = $randomString;
 }
 
-// Liste des champs du formulaire
+// Fields list
 $form = array(
 	'captcha' => array('type' => 'equals', 'value' => $_SESSION['captcha'], 'label' => 'vérification', 'required' => true),
 );
 
-$validation = new FormValidation(); // Création de l'objet
-$validation->setFields($form); // Déclaration des champs
+// Object creation and parameters definition
+$validation = new FormValidation();
+$validation->setFields($form);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$validation->setSource($_POST); // On fournit les valeurs à l'objet de validation
+	// Form values setting
+	$validation->setSource($_POST);
 	
-	if ($validation->isValid()) { // On vérifie si le formulaire est valide
+	// Form validation
+	if ($validation->isValid()) {
 		$message = '<p>Le formulaire est valide.</p>';
 	} else {
 		$message = '<p>Vous avez fait des erreurs :</p><ul><li>'.implode('</li><li>', $validation->getErrors()).'</li></ul>'; // Affichage des erreurs

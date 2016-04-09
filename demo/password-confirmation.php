@@ -1,19 +1,22 @@
 <?php
 include('../form-validation.php');
 
-// Liste des champs du formulaire
+// Fields list
 $form = array(
 	'password' => array('type' => 'string', 'label' => 'mot de passe', 'required' => true),
 	'passwordconf' => array('type' => 'equals_field', 'field' => 'password', 'label' => 'confirmation du mot de passe', 'required' => true)
 );
 
-$validation = new FormValidation(); // Création de l'objet
-$validation->setFields($form); // Déclaration des champs
+// Object creation and parameters definition
+$validation = new FormValidation();
+$validation->setFields($form);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$validation->setSource($_POST); // On fournit les valeurs à l'objet de validation
+	// Form values setting
+	$validation->setSource($_POST);
 	
-	if ($validation->isValid()) { // On vérifie si le formulaire est valide
+	// Form validation
+	if ($validation->isValid()) {
 		$message = '<p>Le formulaire est valide.</p>';
 	} else {
 		$message = '<p>Vous avez fait des erreurs :</p><ul><li>'.implode('</li><li>', $validation->getErrors()).'</li></ul>'; // Affichage des erreurs
